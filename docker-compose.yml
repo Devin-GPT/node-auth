@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - '3000:3000'
+      - '3330:3330'
     environment:
       - MONGO_URI=mongodb://mongo:27017/myapp
     depends_on:
