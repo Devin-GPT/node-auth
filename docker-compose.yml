@@ -5,6 +5,11 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    volumes:
+      - .:/app
+      - /app/node_modules
+    command: ["yarn", "devmon"]
+    # command: ["tail", "-f", "/dev/null"]
     ports:
       - '3330:3330'
     environment:
@@ -16,6 +21,11 @@ services:
 
   mongo:
     image: mongo:latest
+    healthcheck:
+      test: ["CMD", "mongostat", "--quiet"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     ports:
       - '27017:27017'
     volumes:
