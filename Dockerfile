@@ -28,4 +28,4 @@ COPY --from=builder /app/dist ./dist
 EXPOSE 3330
 
 # Command to run the application
-CMD ["yarn", "devmon"]
+CMD ["yarn", "dev"]
