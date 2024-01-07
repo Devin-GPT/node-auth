@@ -58,7 +58,7 @@ We use SemVer (http://semver.org/) for versioning. For the versions available, s
 
 ## Authors
 
-- Your Name - Initial work - Devin-GPT (https://github.com/Devin-GPT)
+- Devin Dias - Initial work - Devin-GPT (https://github.com/Devin-GPT)
 
 See also the list of contributors (https://github.com/Devin-GPT/node-auth/contributors) who participated in this project.
 
