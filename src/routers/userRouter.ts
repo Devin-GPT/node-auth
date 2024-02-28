@@ -1,6 +1,6 @@
 import { IncomingMessage, ServerResponse } from 'http';
-import { userRouteHandler } from './handlers/userRouteHandler';
-import { authMiddleware } from './middleware/authMiddleware';
+import { userRouteHandler } from '../handlers/userRouteHandler';
+import { authMiddleware } from '../middleware/authMiddleware';
 
 // Define custom types for readability and future flexibility
 type RequestHandler = (req: IncomingMessage, res: ServerResponse) => void;

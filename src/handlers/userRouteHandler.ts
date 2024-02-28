@@ -1,4 +1,5 @@
 import { IncomingMessage, ServerResponse } from 'http';
+import { createUser } from '../services/userService'; // Update this path accordingly
 
 // Define a type for the request body to enhance type safety and readability
 // interface UserRequestBody {
@@ -33,17 +34,26 @@ function handleGetRequest(res: ServerResponse): void {
     res.end(JSON.stringify({ message: 'User endpoint reached' }));
 }
 
+// Other imports and functions remain the same...
+
 /**
- * Handles POST requests by parsing the request body and echoing it back.
+ * Handles POST requests by creating a new user with the provided request body.
  * @param req The HTTP request object.
  * @param res The HTTP response object.
  */
 async function handlePostRequest(req: IncomingMessage, res: ServerResponse): Promise<void> {
+   
     try {
         const requestBody = await parseRequestBody(req);
-        res.writeHead(200, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ receivedBody: requestBody }));
+        console.log("hero",requestBody)
+        const createdUser = await createUser(requestBody);
+        res.writeHead(201, { 'Content-Type': 'application/json' });
+        // Consider what information you want to return. Avoid sending sensitive data like passwords.
+        const { password, ...userWithoutPassword } = createdUser.toObject();
+        res.end(JSON.stringify({ user: userWithoutPassword }));
     } catch (error) {
+        // Depending on the error type, you might want to return different status codes
+        // For example, a 400 Bad Request for validation errors, or a 500 Internal Server Error for others
         res.writeHead(400, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ error: (error as Error).message }));
     }

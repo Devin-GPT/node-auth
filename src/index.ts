@@ -1,6 +1,6 @@
 import * as http from 'http';
 import { connectDB } from "./data/database";
-import { router } from './router';
+import { router } from './routers/userRouter';
 
 // Use a function to safely parse environment variables
 function getPort(defaultPort: number): number {
