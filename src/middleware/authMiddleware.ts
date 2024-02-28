@@ -19,7 +19,7 @@ type MiddlewareFunction = (req: IncomingMessage, res: ServerResponse, next: Next
  * @param next A callback function to continue to the next middleware in the stack.
  */
 export const authMiddleware: MiddlewareFunction = (req, res, next) => {
-    console.log('Auth Middleware accessed');
+    console.log('Auth Middleware accessed', req, res);
     // Placeholder for actual authentication logic
     // Example: if (isAuthenticated(req)) { next(); } else { res.statusCode = 401; res.end('Unauthorized'); }
     next(); // Proceed to the next middleware or route handler

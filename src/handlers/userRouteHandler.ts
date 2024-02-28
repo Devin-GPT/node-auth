@@ -1,9 +1,9 @@
 import { IncomingMessage, ServerResponse } from 'http';
 
 // Define a type for the request body to enhance type safety and readability
-interface UserRequestBody {
-    // Define properties expected in the request body
-}
+// interface UserRequestBody {
+//     // Define properties expected in the request body
+// }
 
 /**
  * Parses the request body to JSON.
