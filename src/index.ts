@@ -1,38 +1,30 @@
-// import http = require('http');
 import * as http from 'http';
+import connectDB from "./data/database";
+import User from './data/user'; // Assuming `User` is the correct model class
 
 const PORT = process.env.PORT || 3330;
 
-http.createServer((req: http.IncomingMessage, res: http.ServerResponse) => {
+async function server() {
+    await connectDB(); // Correctly await the connection
 
-    if (req.method === 'POST' && req.url === '/register') {
-        let body = '';
-
-        req.on('data', chunk => {
-            console.log("chunk", chunk)
-            body += chunk.toString(); // Convert Buffer to string
-        });
-
-        req.on('end', () => {
-            try {
-                const parsedBody = JSON.parse(body); // Parse the JSON body
-                const { username, email, password } = parsedBody;
-
-                // Process the data (e.g., validation, storing in database, etc.)
-                console.log(`Username: ${username}, Email: ${email}, Password: ${password}`);
-
-                res.writeHead(200, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify({ message: 'Registration successful' }));
-            } catch (error) {
-                res.writeHead(400, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify({ message: 'Invalid JSON' }));
-            }
-        });
-    } else {
-        res.writeHead(404, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ message: 'Not FounD' }));
+    // Example user creation for demonstration; consider moving to an appropriate route
+    try {
+        const newUser = new User({ username: "devin", email: "kyle@mail.net", password: "password" });
+        await newUser.save();
+        console.log('New user created');
+    } catch (error) {
+        console.error('Error creating user:', error);
     }
-}).listen(PORT, () => {
-    console.log(`Server running at http://localhost:${PORT}`);
-})
 
+    http.createServer(async (req: http.IncomingMessage, res: http.ServerResponse) => {
+        // Basic request handling example
+        if (req.url === '/' && req.method === 'GET') {
+            res.writeHead(200, { 'Content-Type': 'text/plain' });
+            res.end('Hello World!');
+        }
+    }).listen(PORT, () => {
+        console.log(`Server running at http://localhost:${PORT}`);
+    });
+}
+
+server().catch(console.error);

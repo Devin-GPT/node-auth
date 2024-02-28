@@ -9,17 +9,17 @@ services:
       - .:/app
       - /app/node_modules
     command: ["yarn", "dev"]
-    # command: ["tail", "-f", "/dev/null"]
     ports:
       - '3330:3330'
     environment:
-      - MONGO_URI=mongodb://mongo:27017/myapp
+      - MONGO_URI=mongodb://mongodb:27017/node-auth
     depends_on:
-      - mongo
+      - mongodb
     networks:
       - myapp-network
 
-  mongo:
+
+  mongodb:
     image: mongo:latest
     healthcheck:
       test: ["CMD", "mongostat", "--quiet"]
