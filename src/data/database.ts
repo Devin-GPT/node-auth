@@ -6,8 +6,9 @@ import mongoose from 'mongoose';
  * Exits the process with failure if unable to connect, ensuring the application does not start in an unstable state.
  */
 export const connectDB: () => Promise<void> = async () => {
-  const mongoURI: string = process.env.MONGO_URI || 'mongodb://mongodb:27017/node-auth';
-  
+  const mongoURI: string =
+    process.env.MONGO_URI || 'mongodb://mongodb:27017/node-auth';
+
   try {
     await mongoose.connect(mongoURI);
     console.log('MongoDB Connected...');

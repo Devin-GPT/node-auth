@@ -1,4 +1,4 @@
-import mongoose, { Schema, Document } from "mongoose";
+import mongoose, { Schema, Document } from 'mongoose';
 
 /**
  * Interface to define the User model properties.
@@ -16,23 +16,23 @@ const userSchema: Schema = new mongoose.Schema({
   username: {
     type: String,
     required: true,
-    unique: true
+    unique: true,
   },
   email: {
     type: String,
     required: true,
-    unique: true
+    unique: true,
   },
   password: {
     type: String,
-    required: true
-    // Removed unique: true for password since typically, passwords are hashed and 
+    required: true,
+    // Removed unique: true for password since typically, passwords are hashed and
     // uniqueness isn't enforced at the database level for password fields.
   },
   registered: {
     type: Date,
-    default: Date.now
-  }
+    default: Date.now,
+  },
 });
 
 // Create a model for the user schema and explicitly declare the IUser interface for type checking
