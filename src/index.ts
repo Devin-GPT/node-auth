@@ -1,30 +1,31 @@
 import * as http from 'http';
-import connectDB from "./data/database";
-import User from './data/user'; // Assuming `User` is the correct model class
+import {connectDB} from "./data/database";
+import { router } from './router';
+const PORT: number = parseInt(process.env.PORT || '3330', 10);
 
-const PORT = process.env.PORT || 3330;
 
-async function server() {
-    await connectDB(); // Correctly await the connection
-
-    // Example user creation for demonstration; consider moving to an appropriate route
+/**
+ * Initializes the HTTP server and connects to the database.
+ */
+async function server(): Promise<void> {
     try {
-        const newUser = new User({ username: "devin", email: "kyle@mail.net", password: "password" });
-        await newUser.save();
-        console.log('New user created');
+        // Ensure the database is connected before starting the server
+        await connectDB();
+        console.log('Database connection successful');
+        
+        // Create the HTTP server
+        http.createServer((req, res) => {
+            console.log(`Received request: ${req.method} ${req.url}`);
+            // Delegate request handling to the router
+            router(req, res);
+        }).listen(PORT, () => {
+            console.log(`Server running at http://localhost:${PORT}`);
+        });
     } catch (error) {
-        console.error('Error creating user:', error);
+        // Log and exit on startup errors (e.g., database connection issues)
+        console.error('Server startup error:', error);
+        process.exit(1);
     }
-
-    http.createServer(async (req: http.IncomingMessage, res: http.ServerResponse) => {
-        // Basic request handling example
-        if (req.url === '/' && req.method === 'GET') {
-            res.writeHead(200, { 'Content-Type': 'text/plain' });
-            res.end('Hello World!');
-        }
-    }).listen(PORT, () => {
-        console.log(`Server running at http://localhost:${PORT}`);
-    });
 }
 
 server().catch(console.error);
