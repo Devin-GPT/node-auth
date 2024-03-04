@@ -1,0 +1,22 @@
+{
+    "name": "Your Project Name",
+    "dockerComposeFile": "../docker-compose.yml",
+    "service": "app",
+    "workspaceFolder": "/app",
+    "customizations": {
+        "vscode": {
+            "settings": { 
+                "terminal.integrated.shell.linux": "/bin/bash"
+                
+              },
+              "extensions": [
+                "dbaeumer.vscode-eslint",
+                "esbenp.prettier-vscode"
+              ],
+        }
+    },
+
+    "forwardPorts": [3330],
+    "postCreateCommand": "yarn install"
+  }
+  
