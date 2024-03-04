@@ -3,12 +3,11 @@ import { connectDB } from './data/database';
 import { router } from './routers/userRouter';
 
 // Use a function to safely parse environment variables
-function getPort(defaultPort: number): number {
-  const port = process.env.PORT;
-  return port !== undefined ? parseInt(port, 10) : defaultPort;
+function getPort(): number {
+  return process.env.NODE_ENV === 'debug' ? 9229 : 3330;
 }
 
-const PORT: number = getPort(3330);
+const PORT: number = getPort();
 
 // Define types for Request and Response to improve readability and type safety
 type HttpRequest = http.IncomingMessage;
