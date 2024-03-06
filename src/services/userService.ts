@@ -1,5 +1,5 @@
 // userService.ts
-import UserModel from '../models/user'; // Update this path accordingly
+import UserModel from '../data/models/user'; // Update this path accordingly
 
 /**
  * Creates a new user in the database.
