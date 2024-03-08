@@ -1,6 +1,7 @@
 import * as http from 'http';
 import { connectDB } from './data/database';
 import { router } from './routers/userRouter';
+import { createPasswordHash } from './utils/hashPassword';
 
 // Use a function to safely parse environment variables
 function getPort(): number {
@@ -24,6 +25,9 @@ async function startServer(): Promise<void> {
     // Create and start the HTTP server
     http
       .createServer((req: HttpRequest, res: HttpResponse) => {
+        createPasswordHash('password');
+        const testPassword = createPasswordHash('password');
+        console.log(testPassword);
         console.log(`Received request: ${req.method} ${req.url}`);
         router(req, res);
       })
