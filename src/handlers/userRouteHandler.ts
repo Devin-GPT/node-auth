@@ -1,5 +1,6 @@
 import { IncomingMessage, ServerResponse } from 'http';
 import { createUser } from '../services/userService'; // Update this path accordingly
+import { createPasswordHash } from '../utils/hashPassword';
 
 // If the structure is known:
 interface UserRequestBody {
@@ -54,6 +55,7 @@ async function handlePostRequest(
 ): Promise<void> {
   try {
     const requestBody = await parseRequestBody(req);
+    requestBody.password = createPasswordHash(requestBody.password);
     const createdUser = await createUser(requestBody);
     res.writeHead(201, { 'Content-Type': 'application/json' });
     // Consider what information you want to return. Avoid sending sensitive data like passwords.
@@ -61,8 +63,8 @@ async function handlePostRequest(
     const { password, ...userWithoutPassword } = createdUser.toObject();
     console.log('password', password);
     console.log('userWithoutPassword', userWithoutPassword);
-
-    res.end(JSON.stringify({ user: userWithoutPassword }));
+    const hashPassword = password;
+    res.end(JSON.stringify({ user: { userWithoutPassword, hashPassword } }));
   } catch (error) {
     // Depending on the error type, you might want to return different status codes
     // For example, a 400 Bad Request for validation errors, or a 500 Internal Server Error for others
