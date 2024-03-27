@@ -1,1 +1,12 @@
-yarn cleanup
+#!/bin/sh
+
+. "$(dirname "$0")/_/husky.sh"
+
+# Check if running on Windows
+if [ "$OS" = "Windows_NT" ]; then
+    # Run the command with .cmd suffix for Windows
+    yarn.cmd cleanup
+else
+    # Run the standard command for macOS (and potentially Linux)
+    yarn cleanup
+fi

@@ -1,18 +1,7 @@
 import { IncomingMessage, ServerResponse } from 'http';
 import { createUser } from '../services/userService'; // Update this path accordingly
 import { createPasswordHash } from '../utils/hashPassword';
-
-// If the structure is known:
-interface UserRequestBody {
-  username: string;
-  email: string;
-  password: string;
-}
-
-// Define a type for the request body to enhance type safety and readability
-// interface UserRequestBody {
-//     // Define properties expected in the request body
-// }
+import { UserRequestBody } from '../types';
 
 /**
  * Parses the request body to JSON.
