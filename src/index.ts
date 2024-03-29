@@ -1,7 +1,10 @@
+import * as dotenv from 'dotenv';
 import * as http from 'http';
 import { connectDB } from './data/database';
 import userRouter from './routers/userRouter';
 import { HttpRequest, HttpResponse } from './types';
+
+dotenv.config();
 
 // Use a function to safely parse environment variables
 function getPort(): number {

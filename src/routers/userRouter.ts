@@ -21,9 +21,12 @@ const router: RequestHandler = (req, res) => {
   const urlPath = req.url.split('?')[0];
 
   // Route handling logic
-  if (urlPath.startsWith('/users')) {
-    console.log('Routing to /users');
+  if (urlPath.startsWith('/users/register/auth')) {
+    console.log('Routing to /users/register/auth');
     authMiddleware(req, res, () => userRouteHandler(req, res));
+  } else if (urlPath.startsWith('/users/register')) {
+    console.log('Routing to /users/register');
+    userRouteHandler(req, res);
   } else {
     res.writeHead(404, { 'Content-Type': 'text/plain' });
     res.end('Not Found');

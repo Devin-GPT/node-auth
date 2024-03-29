@@ -1,3 +1,4 @@
+import jwt from 'jsonwebtoken';
 import { IncomingMessage, ServerResponse } from 'http';
 import { createUser } from '../services/userService'; // Update this path accordingly
 import { createPasswordHash } from '../utils/hashPassword';
@@ -42,18 +43,24 @@ async function handlePostRequest(
   req: IncomingMessage,
   res: ServerResponse,
 ): Promise<void> {
+  const JWT_SECRET = process.env.JWT_SECRET || '';
   try {
     const requestBody = await parseRequestBody(req);
     requestBody.password = createPasswordHash(requestBody.password);
     const createdUser = await createUser(requestBody);
-    res.writeHead(201, { 'Content-Type': 'application/json' });
+    const token = jwt.sign({ username: createdUser.username }, JWT_SECRET, {
+      expiresIn: '1h',
+    });
     // Consider what information you want to return. Avoid sending sensitive data like passwords.
 
+    // Inside handlePostRequest function
+
     const { password, ...userWithoutPassword } = createdUser.toObject();
-    console.log('password', password);
-    console.log('userWithoutPassword', userWithoutPassword);
     const hashPassword = password;
-    res.end(JSON.stringify({ user: { userWithoutPassword, hashPassword } }));
+    res.writeHead(201, { 'Content-Type': 'application/json' });
+    res.end(
+      JSON.stringify({ user: { userWithoutPassword, hashPassword, token } }),
+    );
   } catch (error) {
     // Depending on the error type, you might want to return different status codes
     // For example, a 400 Bad Request for validation errors, or a 500 Internal Server Error for others
