@@ -31,10 +31,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const http = __importStar(require("http"));
 const database_1 = require("./data/database");
-const userRouter_1 = require("./routers/userRouter");
+const userRouter_1 = __importDefault(require("./routers/userRouter"));
 // Use a function to safely parse environment variables
 function getPort() {
     return process.env.NODE_ENV === 'debug' ? 9229 : 3330;
@@ -52,7 +55,7 @@ function startServer() {
             http
                 .createServer((req, res) => {
                 console.log(`Received request: ${req.method} ${req.url}`);
-                (0, userRouter_1.router)(req, res);
+                (0, userRouter_1.default)(req, res);
             })
                 .listen(PORT, () => console.log(`Server running at http://localhost:${PORT}`));
         }
